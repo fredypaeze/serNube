@@ -1,30 +1,30 @@
-// Instanciamos las dependencias que vamos a usar con REQUIRE 
-const express = require ('express');
-const conectarDB = require('../config/db');
+const express = require("express");
 const cors = require('cors');
+const conectarBD = require('../config/db');
 
-// Crear el Servidor
+
+
+// creamos el servidor
 const app = express();
 
-// Enlazamos la conexión con nuestra base de datos
-conectarDB();
+//conectar a la bd
+conectarBD();
+
+// habilitar cors
 app.use(cors());
 
-// Configurar express para recibir los datos por json
+// habilitar json
 app.use(express.json());
 
-//Ruta principal del proyecto
-app.use('/api/clientes', require('../routes/rutas'));
-app.use('/api/productos', require('../routes/rutas'));
-app.use('/api/sucursales', require('../routes/rutas'));
+const PORT = process.env.PORT || 7000;
 
+//Rutas de los modulos
+app.use("/api/auth", require("../routes/auth"));
+app.use("/api/usuarios", require("../routes/rutaUsuarios"));
+app.use("/api/clientes", require("../routes/rutaCliente"));
+app.use("/api/productos", require("../routes/rutaProducto"));
+app.use("/api/sucursales", require("../routes/rutaSucursal"));
 
-// Definir ruta principal
-app.listen(3000,() => {
-    console.log('El servidor está conectado a http://loclhost:3000');
-})
-
-//Ruta para verificar el servidor
-app.get('/', (req,res) =>{
-    res.send('Hola Mundo desde la Web');
-})
+app.listen(PORT, () => {
+    console.log("El servidor está conectado a http://localhost:7000");
+});
